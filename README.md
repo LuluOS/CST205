@@ -1,1 +1,1 @@
-# CST205
+# CST205 - Multimedia Design & Programming
