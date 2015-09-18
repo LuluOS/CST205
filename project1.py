@@ -1,3 +1,9 @@
+##Student: Luana Sawada
+##      Student ID: 2585504
+##      Otter ID: okin8904
+##      https://github.com/LuluOS/CST205.git    
+##Copyright (c) 2015, Luana Okino Sawada <lokinosawada@csumb.edu> or <losbcc@gmail.com>
+
 import sys
   
 #""" Quicksort """
