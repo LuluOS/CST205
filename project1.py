@@ -174,6 +174,7 @@ def mean(lst):
   mean = total / len(lst)
   return mean
 
+#""" check the color value and approximate it to black or white """
 def approximateBnW(color):
   if (color >= 0) & (color <= 127): #""" if the color is near to black than white """
     color = 0 #""" color turn black """
@@ -182,7 +183,7 @@ def approximateBnW(color):
         color = 255 #""" color turn white """
   return color
 
-#""" return the range of the lst """ 
+#""" return the array with all the same value """ 
 def bnw(Red,Green,Blue):
   average = (Red + Green + Blue) / 3
   color = approximateBnW(average)
@@ -191,6 +192,62 @@ def bnw(Red,Green,Blue):
   Red = color
   Green = color
   Blue = color
+  vector.append(Red) #""" vector[0] = Red """
+  vector.append(Green) #""" vector[1] = Green """
+  vector.append(Blue) #""" vector[2] = Blue """
+  return vector
+
+#""" return the RedNGrey colors """ 
+def RedNGrey(Red,Green,Blue):
+  vector = []
+  average = (Green + Blue) / 2
+  if (Red < average):
+    Red = average
+  Green = average
+  Blue = average
+
+  vector.append(Red) #""" vector[0] = Red """
+  vector.append(Green) #""" vector[1] = Green """
+  vector.append(Blue) #""" vector[2] = Blue """
+  return vector
+
+#""" return the GreenNGrey colors """ 
+def GreenNGrey(Red,Green,Blue):
+  vector = []
+  average = (Blue + Red) / 2
+  if (Green < average):
+    Green = average
+  Red = average
+  Blue = average
+
+  vector.append(Red) #""" vector[0] = Red """
+  vector.append(Green) #""" vector[1] = Green """
+  vector.append(Blue) #""" vector[2] = Blue """
+  return vector
+
+#""" return the BlueNGrey colors """ 
+def BlueNGrey(Red,Green,Blue):
+  vector = []
+  average = (Green + Red) / 2
+  if (Blue < average):
+    Blue = average
+  Red = average
+  Green = average
+
+  vector.append(Red) #""" vector[0] = Red """
+  vector.append(Green) #""" vector[1] = Green """
+  vector.append(Blue) #""" vector[2] = Blue """
+  return vector
+
+#""" return the GreyShades """
+def grey(Red,Green,Blue):
+  average = (Red + Green + Blue) / 3
+  
+  vector = []
+  Red = average
+  Green = average
+  Blue = average
+
   vector.append(Red) #""" vector[0] = Red """
   vector.append(Green) #""" vector[1] = Green """
   vector.append(Blue) #""" vector[2] = Blue """
@@ -383,6 +440,166 @@ def BnWFilter(pic, ySize, xSize, folder):
 
   return
 
+#""" Red and Grey Filtering """
+def RedNGreyFilter(pic, ySize, xSize, folder):
+  pictureDetails = createNewPicture(xSize, ySize, "RedNGreyFilter", folder)
+
+  #"""Navigating in y-axes """
+  for y in range (0, ySize):
+    #"""Navigating in x-axes """
+    for x in range (0, xSize):
+      #""" declare a new vectors """
+      red = []
+      blue = []
+      green = []
+      px = []
+      redNgreyColor = []
+
+      analyzePixel(px, pic, x, y, red, blue, green)
+      
+      npx = getPixel(pictureDetails[0], x, y)
+      pxSize = len(px)-1
+      
+      mRed = median(red, pxSize)
+      mGreen = median(green, pxSize)
+      mBlue = median(blue, pxSize)
+
+      redNgreyColor = RedNGrey(mRed,mGreen,mBlue)
+
+      #""" put all RGB color together """
+      color = makeColor(redNgreyColor[0], redNgreyColor[1], redNgreyColor[2])
+      #""" set pixel npx with the color """
+      setColor(npx, color)
+
+      #""" deleting the px array """
+      del px
+
+    repaint(pictureDetails[0])
+
+  saveNewPicture(pictureDetails[0], pictureDetails[1])
+
+  return
+
+#""" Green and Grey Filtering """
+def GreenNGreyFilter(pic, ySize, xSize, folder):
+  pictureDetails = createNewPicture(xSize, ySize, "GreenNGreyFilter", folder)
+
+  #"""Navigating in y-axes """
+  for y in range (0, ySize):
+    #"""Navigating in x-axes """
+    for x in range (0, xSize):
+      #""" declare a new vectors """
+      red = []
+      blue = []
+      green = []
+      px = []
+      greenNgreyColor = []
+
+      analyzePixel(px, pic, x, y, red, blue, green)
+      
+      npx = getPixel(pictureDetails[0], x, y)
+      pxSize = len(px)-1
+      
+      mRed = median(red, pxSize)
+      mGreen = median(green, pxSize)
+      mBlue = median(blue, pxSize)
+
+      greenNgreyColor = GreenNGrey(mRed,mGreen,mBlue)
+
+      #""" put all RGB color together """
+      color = makeColor(greenNgreyColor[0], greenNgreyColor[1], greenNgreyColor[2])
+      #""" set pixel npx with the color """
+      setColor(npx, color)
+
+      #""" deleting the px array """
+      del px
+
+    repaint(pictureDetails[0])
+
+  saveNewPicture(pictureDetails[0], pictureDetails[1])
+
+  return
+
+#""" Blue and Grey Filtering """
+def BlueNGreyFilter(pic, ySize, xSize, folder):
+  pictureDetails = createNewPicture(xSize, ySize, "BlueNGreyFilter", folder)
+
+  #"""Navigating in y-axes """
+  for y in range (0, ySize):
+    #"""Navigating in x-axes """
+    for x in range (0, xSize):
+      #""" declare a new vectors """
+      red = []
+      blue = []
+      green = []
+      px = []
+      blueNgreyColor = []
+
+      analyzePixel(px, pic, x, y, red, blue, green)
+      
+      npx = getPixel(pictureDetails[0], x, y)
+      pxSize = len(px)-1
+      
+      mRed = median(red, pxSize)
+      mGreen = median(green, pxSize)
+      mBlue = median(blue, pxSize)
+
+      blueNgreyColor = BlueNGrey(mRed,mGreen,mBlue)
+
+      #""" put all RGB color together """
+      color = makeColor(blueNgreyColor[0], blueNgreyColor[1], blueNgreyColor[2])
+      #""" set pixel npx with the color """
+      setColor(npx, color)
+
+      #""" deleting the px array """
+      del px
+
+    repaint(pictureDetails[0])
+
+  saveNewPicture(pictureDetails[0], pictureDetails[1])
+
+  return
+
+#""" Green and Grey Filtering """
+def GreyFilter(pic, ySize, xSize, folder):
+  pictureDetails = createNewPicture(xSize, ySize, "GreyFilter", folder)
+
+  #"""Navigating in y-axes """
+  for y in range (0, ySize):
+    #"""Navigating in x-axes """
+    for x in range (0, xSize):
+      #""" declare a new vectors """
+      red = []
+      blue = []
+      green = []
+      px = []
+      greyColor = []
+
+      analyzePixel(px, pic, x, y, red, blue, green)
+      
+      npx = getPixel(pictureDetails[0], x, y)
+      pxSize = len(px)-1
+      
+      mRed = median(red, pxSize)
+      mGreen = median(green, pxSize)
+      mBlue = median(blue, pxSize)
+
+      greyColor = grey(mRed,mGreen,mBlue)
+
+      #""" put all RGB color together """
+      color = makeColor(greyColor[0], greyColor[1], greyColor[2])
+      #""" set pixel npx with the color """
+      setColor(npx, color)
+
+      #""" deleting the px array """
+      del px
+
+    repaint(pictureDetails[0])
+
+  saveNewPicture(pictureDetails[0], pictureDetails[1])
+
+  return
+
 def iniciate():
   #""" declare a new array to have returnable values """
   configuration = []
@@ -417,7 +634,7 @@ while (again == True):
   goOn = True
   if (configuration): #""" check if the array is different from null """
     while (goOn == True): #""" If the user select a number that is not accept as a input everything above is gonna repeat """
-      number = requestInteger("Choose a filter:\n 1-MedianFilter, 2-ModeFilter,\n 3-RangeFilter, 4-MeanFilter,\n 5-BlackNWhiteFilter")
+      number = requestInteger("Choose a filter:\n 1-MedianFilter, 2-ModeFilter,\n 3-RangeFilter, 4-MeanFilter,\n 5-BlackNWhiteFilter, 6-RedNGrey,\n 7-GreenNGrey, 8-BlueNGrey,\n 9-Grey")
       if (number == 1):
         goOn = False
         medianFilter(configuration[0], configuration[2], configuration[1], configuration[3])
@@ -438,7 +655,23 @@ while (again == True):
                 goOn = False
                 BnWFilter(configuration[0], configuration[2], configuration[1], configuration[3])
               else:
-                goOn = True
+                if (number == 6):
+                  goOn = False
+                  RedNGreyFilter(configuration[0], configuration[2], configuration[1], configuration[3])
+                else:
+                  if (number == 7):
+                    goOn = False
+                    GreenNGreyFilter(configuration[0], configuration[2], configuration[1], configuration[3])
+                  else: 
+                    if (number == 8):
+                      goOn = False
+                      BlueNGreyFilter(configuration[0], configuration[2], configuration[1], configuration[3])
+                    else:
+                      if (number == 9):
+                        goOn = False
+                        GreyFilter(configuration[0], configuration[2], configuration[1], configuration[3])
+                      else:
+                        goOn = True
   else:
     print ("!!! ERROR: couldn't iniciate !!!")
 
